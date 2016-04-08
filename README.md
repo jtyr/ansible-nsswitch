@@ -19,8 +19,7 @@ Example
 - hosts: myhost2
   vars:
     # Add 'sss' option to the groups database
-    nsswitch_group:
-      - files
+    nsswitch_group__custom:
       - sss
   roles:
     - nsswitch
@@ -37,16 +36,11 @@ Example
 - hosts: myhost4
   vars:
     # Definition of the new database
-    my_nsswitch_customdb:
+    nsswitch__custom:
       customdb:
         - files
-    # Add the custom database by updating it with the default database
-    my_nsswitch_config: "{{
-      my_nsswitch_customdb.update(nsswitch__all)
-    }}{{ my_nsswitch_customdb }}"
   roles:
-    - role: nsswitch
-      nsswitch_config: "{{ my_nsswitch_config }}"
+    - nsswitch
 
 # Example of how to redefine the configturation from scratch
 - hosts: myhost5
@@ -54,14 +48,10 @@ Example
     # The new nsswitch config will contain only passwd, shadow, group and
     # hosts databases
     nsswitch_config:
-      passwd:
-        - files
-      shadow:
-        - files
-      group:
-        - files
-      hosts:
-        - files
+      passwd: "{{ nsswitch_passwd }}"
+      shadow: "{{ nsswitch_shadow }}"
+      group: "{{ nsswitch_group }}"
+      hosts: "{{ nsswitch_hosts }}"
   roles:
     - nsswitch
 ```
@@ -76,77 +66,222 @@ List of variables used by the role:
 # Default location of the config file
 nsswitch_file_location: /etc/nsswitch.conf
 
-# Aliases
-nsswitch_aliases:
+
+# Default aliases
+nsswitch_aliases__default:
   - files
   - nisplus
 
-# Automount
-nsswitch_automount:
+# Custom aliases
+nsswitch_aliases__custom: []
+
+# Final aliases
+nsswitch_aliases: "{{
+  nsswitch_aliases__default +
+  nsswitch_aliases__custom }}"
+
+
+# Default automount
+nsswitch_automount__default:
   - files
   - nisplus
 
-# Bootparams
-nsswitch_bootparams:
+# Custom automount
+nsswitch_automount__custom: []
+
+# Final automount
+nsswitch_automount: "{{
+  nsswitch_automount__default +
+  nsswitch_automount__custom }}"
+
+
+# Default bootparams
+nsswitch_bootparams__default:
   - nisplus
   - '[NOTFOUND=return]'
   - files
 
-# Ethers
-nsswitch_ethers:
+# Custom bootparams
+nsswitch_bootparams__custom: []
+
+# Final bootparams
+nsswitch_bootparams: "{{
+  nsswitch_bootparams__default +
+  nsswitch_bootparams__custom }}"
+
+
+# Default ethers
+nsswitch_ethers__default:
   - files
 
-# Group
-nsswitch_group:
+# Custom ethers
+nsswitch_ethers__custom: []
+
+# Final ethers
+nsswitch_ethers: "{{
+  nsswitch_ethers__default +
+  nsswitch_ethers__custom }}"
+
+
+# Default group
+nsswitch_group__default:
   - files
 
-# Hosts
-nsswitch_hosts:
+# Custom group
+nsswitch_group__custom: []
+
+# Final group
+nsswitch_group: "{{
+  nsswitch_group__default +
+  nsswitch_group__custom }}"
+
+
+# Default hosts
+nsswitch_hosts__default:
   - files
   - dns
 
-# Init groups
-nsswitch_initgroups:
+# Custom hosts
+nsswitch_hosts__custom: []
+
+# Final hosts
+nsswitch_hosts: "{{
+  nsswitch_hosts__default +
+  nsswitch_hosts__custom }}"
+
+
+# Default initgroups
+nsswitch_initgroups__default:
   - files
 
-# Net groups
-nsswitch_netgroup:
+# Custom initgroups
+nsswitch_initgroups__custom: []
+
+# Final initgroups
+nsswitch_initgroups: "{{
+  nsswitch_initgroups__default +
+  nsswitch_initgroups__custom }}"
+
+
+# Default netgroup
+nsswitch_netgroup__default:
   - nisplus
 
-# Netmasks
-nsswitch_netmasks:
+# Custom netgroup
+nsswitch_netgroup__custom: []
+
+# Final netgroup
+nsswitch_netgroup: "{{
+  nsswitch_netgroup__default +
+  nsswitch_netgroup__custom }}"
+
+
+# Default netmasks
+nsswitch_netmasks__default:
   - files
 
-# Networks
-nsswitch_networks:
+# Custom netmasks
+nsswitch_netmasks__custom: []
+
+# Final netmasks
+nsswitch_netmasks: "{{
+  nsswitch_netmasks__default +
+  nsswitch_netmasks__custom }}"
+
+
+# Default networks
+nsswitch_networks__default:
   - files
 
-# Passwd
-nsswitch_passwd:
+# Custom networks
+nsswitch_networks__custom: []
+
+# Final networks
+nsswitch_networks: "{{
+  nsswitch_networks__default +
+  nsswitch_networks__custom }}"
+
+
+# Default passwd
+nsswitch_passwd__default:
   - files
 
-# Protocols
-nsswitch_protocols:
+# Custom passwd
+nsswitch_passwd__custom: []
+
+# Final passwd
+nsswitch_passwd: "{{
+  nsswitch_passwd__default +
+  nsswitch_passwd__custom }}"
+
+
+# Default protocols
+nsswitch_protocols__default:
   - files
 
-# Publickey
-nsswitch_publickey:
+# Custom protocols
+nsswitch_protocols__custom: []
+
+# Final protocols
+nsswitch_protocols: "{{
+  nsswitch_protocols__default +
+  nsswitch_protocols__custom }}"
+
+
+# Default publickey
+nsswitch_publickey__default:
   - nisplus
 
-# RPC
-nsswitch_rpc:
+# Custom publickey
+nsswitch_publickey__custom: []
+
+# Final publickey
+nsswitch_publickey: "{{
+  nsswitch_publickey__default +
+  nsswitch_publickey__custom }}"
+
+
+# Default rpc
+nsswitch_rpc__default:
   - files
 
-# Services
-nsswitch_services:
+# Custom rpc
+nsswitch_rpc__custom: []
+
+# Final rpc
+nsswitch_rpc: "{{
+  nsswitch_rpc__default +
+  nsswitch_rpc__custom }}"
+
+
+# Default services
+nsswitch_services__default:
   - files
 
-# Shadow
-nsswitch_shadow:
+# Custom services
+nsswitch_services__custom: []
+
+# Final services
+nsswitch_services: "{{
+  nsswitch_services__default +
+  nsswitch_services__custom }}"
+
+
+# Default shadow
+nsswitch_shadow__default:
   - files
 
-# List of all databases
-nsswitch__all:
+# Custom shadow
+nsswitch_shadow__custom: []
+
+# Final shadow
+nsswitch_shadow: "{{
+  nsswitch_shadow__default +
+  nsswitch_shadow__custom }}"
+
+
+# Default list of (all) databases
+nsswitch__default:
   aliases: "{{ nsswitch_aliases }}"
   automount: "{{ nsswitch_automount }}"
   bootparams: "{{ nsswitch_bootparams }}"
@@ -164,8 +299,13 @@ nsswitch__all:
   services: "{{ nsswitch_services }}"
   shadow: "{{ nsswitch_shadow }}"
 
+# Custom list of databases
+nsswitch__custom: {}
+
 # Final configuration
-nsswitch_config: "{{ nsswitch__all }}"
+nsswitch_config: "{{
+  nsswitch__default.update(nsswitch__custom) }}{{
+  nsswitch__default }}"
 ```
 
 
