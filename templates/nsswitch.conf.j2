@@ -1,6 +1,6 @@
 {{ ansible_managed | comment }}
 
-{% for key, val in nsswitch_config.iteritems() | sort %}
+{% for key, val in nsswitch_config.items() | sort %}
   {%- if val | length > 0 -%}
     {{ key }}: {{ val | join(' ') }}{{ "\n" }}
   {%- endif %}
